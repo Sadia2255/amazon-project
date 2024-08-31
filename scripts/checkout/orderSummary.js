@@ -57,8 +57,8 @@ export function renderOrderSummary() {
       ${deliveryOptionsHTML(matchingProduct, cartItem)}
     </div>
   </div>
-</div>
-`;
+  </div>
+  `;
   });
 
   function deliveryOptionsHTML(matchingProduct, cartItem) {
