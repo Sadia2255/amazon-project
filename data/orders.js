@@ -4,6 +4,6 @@ export function addOrder(order) {
   orders.unshift(order);
 }
 
-function saveToStorage() {
+export function saveToStorage() {
   localStorage.setItem('orders', JSON.stringify(orders));
 }

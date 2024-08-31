@@ -2,6 +2,17 @@ import { cart, addToCart } from '../data/cart.js';
 import { products, loadProducts } from '../data/products.js'
 import { formatCurrency } from './utils/money.js'
 
+
+function updateCartQuantity() {
+  const cartQuantityElement = document.querySelector('.js-cart-quantity');
+
+  const totalQuantity = cart.reduce((sum, cartItem) => sum + cartItem.quantity, 0);
+
+  cartQuantityElement.textContent = totalQuantity;
+}
+
+updateCartQuantity();
+
 loadProducts(renderProductsGrid);
 
 function renderProductsGrid() {
