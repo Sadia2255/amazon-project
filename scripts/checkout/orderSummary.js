@@ -4,6 +4,7 @@ import { formatCurrency } from '../utils/money.js'
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOptions, getDeliveryOption } from '../../data/deliveryOptions.js';
 import { renderPaymentSummary } from './paymentSummary.js';
+import { updateItemCount } from '../checkout.js';
 
 export function renderOrderSummary() {
   let cartSummaryHTML = '';
@@ -91,7 +92,6 @@ export function renderOrderSummary() {
     return html;
   }
 
-
   document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML;
 
   document.querySelectorAll('.js-delete-link').forEach((link) => {
@@ -101,6 +101,7 @@ export function renderOrderSummary() {
 
       document.querySelector(`.js-cart-item-container-${productId}`).remove();
 
+      updateItemCount(); // Update item count immediately after deleting an item
       renderPaymentSummary();
     });
   });

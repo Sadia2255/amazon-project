@@ -21,7 +21,7 @@ async function loadPage() {
   renderPaymentSummary();
 }
 
-function updateItemCount() {
+export function updateItemCount() {
   const returnToHomeLink = document.querySelector('.return-to-home-link');
 
   // Calculate the total quantity of items in the cart
@@ -32,5 +32,3 @@ function updateItemCount() {
 }
 
 loadPage();
-
-
