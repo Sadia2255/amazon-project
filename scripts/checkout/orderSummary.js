@@ -150,9 +150,13 @@ Quantity: <span class="quantity-label js-quantity-label-${matchingProduct.id}">$
         );
         quantityLabel.innerHTML = newQuantity;
 
+        // Re-render both summaries to reflect the changes instantly
+        renderOrderSummary();
+        renderPaymentSummary();
         updateItemCount();
       });
     });
+
 
   document.querySelectorAll('.js-delivery-option').forEach((element) => {
     element.addEventListener('click', () => {
