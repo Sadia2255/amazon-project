@@ -26,7 +26,7 @@ export function renderPaymentSummary() {
     </div>
 
     <div class="payment-summary-row">
-      <div>Items (3):</div>
+      <div>Items (${cart.length}):</div>
       <div class="payment-summary-money">$${formatCurrency(productPriceCents)}</div>
     </div>
 
@@ -50,31 +50,43 @@ export function renderPaymentSummary() {
       <div class="payment-summary-money">$${formatCurrency(totalCents)}</div>
     </div>
 
-    <button class="place-order-button button-primary js-place-order">
+    <button class="place-order-button button-primary js-place-order" ${cart.length === 0 ? 'disabled' : ''}>
       Place your order
     </button>
   `;
 
   document.querySelector('.js-payment-summary').innerHTML = paymentSummaryHTML;
 
-  document.querySelector('.js-place-order').addEventListener('click', async () => {
-    try {
-      const response = await fetch('https://supersimplebackend.dev/orders', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          cart: cart
-        })
-      });
+  if (cart.length > 0) {
+    document.querySelector('.js-place-order').addEventListener('click', async () => {
+      try {
+        const response = await fetch('https://supersimplebackend.dev/orders', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            cart: cart
+          })
+        });
 
-      const order = await response.json()
-      addOrder(order);
+        const order = await response.json()
+        addOrder(order);
 
-    } catch (error) {
-      console.log('Unexpected error. Try again later.')
-    }
-    window.location.href = 'orders.html';
-  });
+      } catch (error) {
+        console.log('Unexpected error. Try again later.')
+      }
+      window.location.href = 'orders.html';
+    });
+  }
+}
+
+// Function to enable or disable the order button based on the cart contents
+export function toggleOrderButton() {
+  const placeOrderButton = document.querySelector('.js-place-order');
+  if (cart.length === 0) {
+    placeOrderButton.setAttribute('disabled', 'true');
+  } else {
+    placeOrderButton.removeAttribute('disabled');
+  }
 }
