@@ -1,11 +1,15 @@
 import { getProduct, loadProductsFetch } from '../data/products.js';
 import { orders } from '../data/orders.js';
+import { cart, loadCart } from '../data/cart.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { formatCurrency } from './utils/money.js';
 import { addToCart } from '../data/cart.js';
 
 async function loadPage() {
   await loadProductsFetch();
+
+  // Load cart and update cart quantity
+  loadCart(updateCartQuantity);
 
   let ordersHTML = '';
 
@@ -55,8 +59,7 @@ async function loadPage() {
             ${product.name}
           </div>
           <div class="product-delivery-date">
-            Arriving on: ${dayjs(productDetails.estimatedDeliveryTime).format('MMMM D')
-        }
+            Arriving on: ${dayjs(productDetails.estimatedDeliveryTime).format('MMMM D')}
           </div>
           <div class="product-quantity">
             Quantity: ${productDetails.quantity}
@@ -87,7 +90,10 @@ async function loadPage() {
     button.addEventListener('click', () => {
       const productId = button.dataset.productId;
 
-      addToCart(button.dataset.productId);
+      addToCart(productId);
+
+      // Update cart quantity immediately after adding to cart
+      updateCartQuantity();
 
       button.innerHTML = 'Added';
       setTimeout(() => {
@@ -100,5 +106,15 @@ async function loadPage() {
   });
 }
 
+// Function to update cart quantity displayed in the header
+function updateCartQuantity() {
+  const cartQuantityElement = document.querySelector('.cart-quantity');
+
+  // Calculate total number of items in the cart
+  const totalQuantity = cart.reduce((sum, cartItem) => sum + cartItem.quantity, 0);
+
+  // Update the cart quantity in the header
+  cartQuantityElement.textContent = totalQuantity;
+}
 
 loadPage();
