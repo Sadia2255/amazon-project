@@ -1,5 +1,3 @@
-# Unfinished project! Still in the works!
-
 # Amazon Clone
 
 This is a clone of the Amazon webpage. It utilizes Javascript, HTML, and CSS. There
