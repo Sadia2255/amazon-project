@@ -63,6 +63,20 @@ export function updateQuantity(productId, newQuantity) {
   saveToStorage();
 }
 
+export function totalQuantity() {
+  // Get the latest cart data from localStorage
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  // Calculate total quantity
+  let totalQuantity = 0;
+  cart.forEach((cartItem) => {
+    totalQuantity += cartItem.quantity;
+  });
+
+  return totalQuantity;
+}
+
+
 export function removeFromCart(productId) {
   const newCart = [];
   cart.forEach((cartItem) => {

@@ -1,4 +1,4 @@
-import { cart, clearCart } from '../../data/cart.js';
+import { cart, clearCart, totalQuantity } from '../../data/cart.js';
 import { getProduct } from '../../data/products.js';
 import { getDeliveryOption } from '../../data/deliveryOptions.js';
 import { formatCurrency } from '../utils/money.js';
@@ -21,13 +21,14 @@ export function renderPaymentSummary() {
   const taxCents = totalPreTaxCents * 0.1;
   const totalCents = totalPreTaxCents + taxCents;
 
+  // Use the corrected totalQuantity function
   const paymentSummaryHTML = `
     <div class="payment-summary-title">
       Order Summary
     </div>
 
     <div class="payment-summary-row">
-      <div>Items (${cart.length}):</div>
+      <div>Items (${totalQuantity()}):</div>
       <div class="payment-summary-money">$${formatCurrency(productPriceCents)}</div>
     </div>
 
@@ -87,6 +88,7 @@ export function renderPaymentSummary() {
     });
   }
 }
+
 
 // Function to enable or disable the order button based on the cart contents
 export function toggleOrderButton() {
