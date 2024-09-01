@@ -1,8 +1,9 @@
-import { cart } from '../../data/cart.js';
+import { cart, clearCart } from '../../data/cart.js';
 import { getProduct } from '../../data/products.js';
 import { getDeliveryOption } from '../../data/deliveryOptions.js';
 import { formatCurrency } from '../utils/money.js';
 import { addOrder } from '../../data/orders.js';
+import { updateItemCount } from '../checkout.js';
 
 export function renderPaymentSummary() {
   let productPriceCents = 0;
@@ -70,13 +71,19 @@ export function renderPaymentSummary() {
           })
         });
 
-        const order = await response.json()
+        const order = await response.json();
         addOrder(order);
 
+        // Clear the cart after placing the order
+        clearCart();
+        updateItemCount(); // Update the item count in the UI
+
+        // Redirect to the orders page
+        window.location.href = 'orders.html';
+
       } catch (error) {
-        console.log('Unexpected error. Try again later.')
+        console.log('Unexpected error. Try again later.');
       }
-      window.location.href = 'orders.html';
     });
   }
 }

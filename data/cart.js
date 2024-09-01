@@ -74,9 +74,11 @@ export function updateDeliveryOption(productId, deliveryOptionId) {
   saveToStorage();
 }
 
-export function updateCartQuantity() {
-
+export function clearCart() {
+  cart.length = 0; // Clear all items in the cart array
+  localStorage.setItem('cart', JSON.stringify(cart)); // Update local storage or other persistence methods if necessary
 }
+
 
 export function loadCart(fun) {
   const xhr = new XMLHttpRequest();
